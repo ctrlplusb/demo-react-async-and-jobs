@@ -21,7 +21,11 @@
     "prop-types": "^15.6.2",
     "razzle": "^2.4.0",
     "react": "^16.4.2",
+    "react-async-bootstrapper": "^2.1.1",
+    "react-async-component": "^2.0.0",
     "react-dom": "^16.4.2",
-    "react-router-dom": "^4.3.1"
+    "react-jobs": "^1.0.1",
+    "react-router-dom": "^4.3.1",
+    "serialize-javascript": "^1.5.0"
   }
 }
