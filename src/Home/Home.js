@@ -28,6 +28,13 @@ export default function Home() {
         <p>
           <CatPicture />
         </p>
+        <p>
+          You can view the source for this demo{' '}
+          <a href="https://github.com/ctrlplusb/demo-react-async-and-jobs">
+            here
+          </a>
+          .
+        </p>
       </Intro>
     </div>
   )
