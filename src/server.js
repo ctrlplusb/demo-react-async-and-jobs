@@ -2,6 +2,7 @@ import {
   AsyncComponentProvider,
   createAsyncContext,
 } from 'react-async-component'
+import { JobProvider, createJobContext } from 'react-jobs'
 import { renderToString } from 'react-dom/server'
 import { StaticRouter } from 'react-router-dom'
 import asyncBootstrapper from 'react-async-bootstrapper'
@@ -25,12 +26,18 @@ server
     // us the ability to tap into the state to send back to the client.
     const asyncContext = createAsyncContext()
 
-    // ℹ️ Ensure you wrap your application with the provider.
+    // ℹ️ Create the job context for our provider, this grants
+    // us the ability to track the resolved jobs to send back to the client.
+    const jobContext = createJobContext()
+
+    // ℹ️ Ensure you wrap your application with the providers.
     const app = (
       <AsyncComponentProvider asyncContext={asyncContext}>
-        <StaticRouter context={context} location={req.url}>
-          <App />
-        </StaticRouter>
+        <JobProvider jobContext={jobContext}>
+          <StaticRouter context={context} location={req.url}>
+            <App />
+          </StaticRouter>
+        </JobProvider>
       </AsyncComponentProvider>
     )
 
@@ -41,6 +48,9 @@ server
 
     // ️️ℹ️ Get the async component state
     const asyncState = asyncContext.getState()
+
+    // ℹ️ Get the resolved jobs state.
+    const jobsState = jobContext.getState()
 
     if (context.url) {
       res.redirect(context.url)
@@ -64,8 +74,11 @@ server
             : `<script src="${assets.client.js}" defer crossorigin></script>`
         }
         <script type="text/javascript">
-          // ℹ️ Serialise the state into the HTML response
+          // ℹ️ Serialise the state into the HTML response so that we will be
+          // able to use the data to rehydrate our react app correctly on the
+          // client.
           window.ASYNC_COMPONENTS_STATE = ${serialize(asyncState)}
+          window.JOBS_STATE = ${serialize(jobsState)}
         </script>
     </head>
     <body>

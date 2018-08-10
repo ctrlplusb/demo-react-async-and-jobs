@@ -1,6 +1,7 @@
 import React from 'react'
 
 import './Home.css'
+import CatPicture from '../CatPicture'
 import logo from './react.svg'
 
 export default function Home() {
@@ -16,13 +17,16 @@ export default function Home() {
           and the server.
         </p>
         <p>
-          It additionally has a child component that fetches data via the
-          react-jobs package. This child component will also be rendered on the
-          server.
+          It additionally has a child component that asynchronously loads a
+          picture of a cat via the react-jobs package. This child component will
+          also be resolved on the server.
         </p>
         <p>
           The asynchrnous loading of the component and the data are both
           supported via the react-async-bootstrapper library.
+        </p>
+        <p>
+          <CatPicture />
         </p>
       </div>
     </div>
