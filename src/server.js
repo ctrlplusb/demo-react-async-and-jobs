@@ -2,6 +2,7 @@ import {
   AsyncComponentProvider,
   createAsyncContext,
 } from 'react-async-component'
+import { extractCritical } from 'emotion-server'
 import { JobProvider, createJobContext } from 'react-jobs'
 import { renderToString } from 'react-dom/server'
 import { StaticRouter } from 'react-router-dom'
@@ -44,7 +45,7 @@ server
     // ℹ️ First we bootstrap our app to ensure the async components/data are resolved
     await asyncBootstrapper(app)
 
-    const markup = renderToString(app)
+    const { html: markup, ids, css } = extractCritical(renderToString(app))
 
     // ️️ℹ️ Get the async component state
     const asyncState = asyncContext.getState()
@@ -68,6 +69,9 @@ server
             ? `<link rel="stylesheet" href="${assets.client.css}">`
             : ''
         }
+        <style>
+          ${css}
+        </style>
         ${
           process.env.NODE_ENV === 'production'
             ? `<script src="${assets.client.js}" defer></script>`
@@ -79,6 +83,7 @@ server
           // client.
           window.ASYNC_COMPONENTS_STATE = ${serialize(asyncState)}
           window.JOBS_STATE = ${serialize(jobsState)}
+          window.EMOTION_IDS = ${serialize(ids)}
         </script>
     </head>
     <body>

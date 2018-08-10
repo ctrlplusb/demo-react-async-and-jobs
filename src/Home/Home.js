@@ -1,17 +1,17 @@
 import React from 'react'
+import styled, { keyframes } from 'react-emotion'
 
-import './Home.css'
 import CatPicture from '../CatPicture'
 import logo from './react.svg'
 
 export default function Home() {
   return (
-    <div className="Home">
-      <div className="Home-header">
-        <img src={logo} className="Home-logo" alt="logo" />
+    <div>
+      <Header>
+        <Logo src={logo} alt="logo" />
         <h1>react-async-component + react-jobs</h1>
-      </div>
-      <div className="Home-intro">
+      </Header>
+      <Intro>
         <p>
           This component is loaded asynchronously. It renders on both the client
           and the server.
@@ -28,7 +28,36 @@ export default function Home() {
         <p>
           <CatPicture />
         </p>
-      </div>
+      </Intro>
     </div>
   )
 }
+
+const spin = keyframes`
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+`
+
+const Header = styled('div')`
+  background-color: #222;
+  height: 150px;
+  padding: 20px;
+  color: white;
+  text-align: center;
+`
+
+const Logo = styled('img')`
+  animation: ${spin} infinite 20s linear;
+  height: 80px;
+`
+
+const Intro = styled('div')`
+  font-size: large;
+  margin: 0 auto;
+  max-width: 600px;
+  padding: 25px 0;
+`

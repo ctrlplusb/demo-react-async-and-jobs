@@ -1,6 +1,7 @@
 import { AsyncComponentProvider } from 'react-async-component'
-import { JobProvider } from 'react-jobs'
+import { hydrate as emotionHydrate } from 'emotion'
 import { hydrate } from 'react-dom'
+import { JobProvider } from 'react-jobs'
 import asyncBootstrapper from 'react-async-bootstrapper'
 import BrowserRouter from 'react-router-dom/BrowserRouter'
 import React from 'react'
@@ -12,6 +13,8 @@ const asyncComponentsState = window.ASYNC_COMPONENTS_STATE
 
 // ️ℹ️ Get any state sent back by the server for the react-jobs.
 const reactJobsState = window.JOBS_STATE
+
+emotionHydrate(window.EMOTION_IDS)
 
 // ️ℹ️ Ensure you wrap your application with the providers and pass in the
 // rehydrate state for the components and jobs.
